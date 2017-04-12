@@ -176,13 +176,15 @@
 
 
           var chart = new dimple.chart(chartWrapper, data);
-          chart.setBounds(0, 0, 180, 130);
+          chart.setBounds(20, 20, 180, 130);
           var xAxis = chart.addCategoryAxis("x", "label");
           xAxis.addOrderRule("label", false);
           xAxis.title = "";
           var yAxis = chart.addMeasureAxis("y", "percentage");
+          yAxis.title = "";
           //yAxis.overrideMax = 100;
-          chart.addSeries("% Responded", dimple.plot.bar);
+          var series = chart.addSeries("% Responded", dimple.plot.bar);
+
           chart.draw(1000);
 
           chartIndex++;
