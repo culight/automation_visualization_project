@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8' >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>America's Predictions on Automation</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src='https://d3js.org/d3.v4.min.js'></script>
+  <script src='http://d3js.org/queue.v1.min.js'></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+  <script>
+    // fixed [width, height] dimensions
+    var LEFT_CHILD_DIMEN = [700, 660];
+    var RIGHT_CHILD_DIMEN = [600, 660];
+
+    // question dictionaries
+    var questionIndex = 0;
+    var questionDict = {
+      0: "How concerned are you that your employer will find someone who is willing to do your job for less money?",
+      1: "How concerned are you that won't be able keep up with the technical skills required to do your job?",
+      2: "How concerned are you that your employer uses machines or computer programs to replace human workers?",
+      3: "How likely do you think it is that job will exist in its current form in 50 years?",
+      4: "How likely do you think it is that in the next 50 years, robots and computers will do much of the work currently done by humans?"
+    };
+    var questionText = "";
+
+    // get correct answers from dictionaries
+    const numOfQuestions = 6;
+
+    var answerConcern = ["Very Concerned",
+      "Somewhat Concerned",
+      "Not Too Concerned",
+      "Not At All Concerned",
+      "Don't Know",
+      "No Answer"];
+
+    var answerExist = ["Defintely Will Exist",
+      "Probably Will Exist",
+      "Probably Will Not Exist",
+      "Defintely Will Not Exist",
+      "Don't Know",
+      "No Answer"];
+
+    var answerHappen = [ "Defintely Will Happen",
+      "Probably Will Happen",
+      "Probably Will Not Happen",
+      "Defintely Will Not Happen",
+      "Don't Know",
+      "No Answer"];
+
+    var answerIndex = ["1","2","3","4","8","9"];
+
+    function getAnswerSet() {
+      var answers = [];
+      if(questionIndex < 3) {
+        answers = answerConcern
+      } else if (questionIndex == 3) {
+        answers = answerExist;
+      } else if (questionIndex == 4) {
+        answers = answerHappen;
+      }
+      return answers;
+    }
+
+    function getQuestionColumn(d) {
+      switch(questionIndex) {
+        case 0:
+          return d.auto1a;
+        case 1:
+          return d.auto1b;
+        case 2:
+          return d.auto1c;
+        case 3:
+          return d.auto2;
+        case 4:
+          return d.auto3;
+        default:
+          break;
+      }
+    }
+
+    var setupParent = function() {
+        d3.select("#left-chart-container").select(".parent-visual").remove();
+        var svg = d3.select("#left-chart-container").append("svg")
+            .attr("class", "parent-visual")
+            .attr("width", LEFT_CHILD_DIMEN[0])
+            .attr("height", LEFT_CHILD_DIMEN[1]);
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height =  +svg.attr("height") - margin.top - margin.bottom;
+
+        var chart = svg.append("g")
+            .attr("class", "chart")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // set x and y scale
+        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+            y = d3.scaleLinear().rangeRound([height, 0]);
+
+        var settings = {
+            svg:svg, x:x, y:y, margin:margin, width:width, height:height, chart:chart
+        }
+
+        return settings;
+    }
+
+    // drawParentGraph the graphs
+    var drawParentGraph = function(data, settings) {
+
+      //Import settings
+    	var margin = settings.margin, width=settings.width,
+          height=settings.height, svg=settings.svg, chart=settings.chart,
+          x=settings.x, y=settings.y;
+
+      x.domain(data.map(function(d) { return d.label; }));
+      y.domain([0, d3.max(data, function(d) {
+        return d.percentage; })]);
+
+      console.table(data);
+
+      // set the x and y axes
+      chart.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + (height + 5) + ")")
+          .call(d3.axisBottom(x));
+
+      // Remove previous y-axis:
+      chart.select("axis--y").remove();
+
+      // Add new y-axis
+      chart.append("g")
+          .attr("class", "axis axis--y")
+          .call(d3.axisLeft(y).tickFormat(function(d) { return d + "%"; }))
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "end");
+
+      var bar = chart.selectAll(".bar")
+          .data(data);
+
+      // remove old data
+      bar.exit().remove();
+
+      // bar clicked -- update the chart
+      var barClicked = function(labelId) {
+          createChild(-1); // clear the chart first
+          createChild(labelId);
+      }
+
+      // add new data
+      bar.enter().append("rect")
+          .attr("class", "bar")
+          .on("click", function(d) {
+            barClicked(d.labelId); })
+          .attr("x", function(d) { return x(d.label); })
+          .transition().duration(500)
+          .attr("y", function(d) { return y(d.percentage); })
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) {
+            return height - y(d.percentage);
+          });
+    }
+
+    var drawChildGraphs = function(dataBundle) {
+      var chartIndex = 1;
+      dataBundle.forEach(function(data) {
+          var chartWrapper =  d3.select("#chart-" + chartIndex).attr("width", 200).attr("height",220);
+          if (data[0].answerId == -1) {
+             $("#chart-" + chartIndex).empty();
+          }
+
+
+          var chart = new dimple.chart(chartWrapper, data);
+          chart.setBounds(0, 0, 180, 130);
+          var xAxis = chart.addCategoryAxis("x", "label");
+          xAxis.addOrderRule("label", false);
+          xAxis.title = "";
+          var yAxis = chart.addMeasureAxis("y", "percentage");
+          //yAxis.overrideMax = 100;
+          chart.addSeries("% Responded", dimple.plot.bar);
+          chart.draw(1000);
+
+          chartIndex++;
+      })
+    }
+  </script>
+  <script type="text/javascript">
+    // load the csv file into a munged dataset
+    var createParent = function(settings) {
+      var answerSet = getAnswerSet();
+      var index = 0;
+       d3.csv("data/test.csv", function(survey) {
+          // init new data object
+          data = [
+              {
+                labelId: "1",
+                label: answerSet[0],
+                value: 0,
+                percentage: 0.0
+              },
+              {
+                labelId: "2",
+                label: answerSet[1],
+                value: 0,
+                percentage: 0.0
+              },
+              {
+                labelId: "3",
+                label: answerSet[2],
+                value: 0,
+                percentage: 0.0
+              },
+              {
+                labelId: "4",
+                label: answerSet[3],
+                value: 0,
+                percentage: 0.0
+              },
+              {
+                labelId: "8",
+                label: answerSet[4],
+                value: 0,
+                percentage: 0.0
+              },
+              {
+                labelId: "9",
+                label: answerSet[5],
+                value: 0,
+                percentage: 0.0
+              },
+            ]
+
+          // calculate total values for each answer
+          survey.map(function(d) {
+            if(((a = getQuestionColumn(d)).trim()) != "") {
+              // increment the appropriate answer category
+              index = answerIndex.indexOf(a);
+              data[index].value++;
+            } else {
+              // answer not given
+            }
+          });
+
+          // calculate percentages for each category
+          var totalResponses = 0;
+          data.forEach(function(e) {
+              totalResponses += e.value;
+          });
+
+          data.forEach(function(e) {
+              e.percentage = (e.value / totalResponses) * 100;
+          });
+
+          drawParentGraph(data, settings);
+        });
+    }
+
+    // load filtered data from csv into multiples graphs
+    var createChild = function(ansId) {
+        var sex = [], income = [], political = [], education = [],
+            jobFunction = [], ageGroup = [];
+        var dataBundle = [];
+
+        // label dictionary
+        labelDict = {
+            "sex": ["male", "female"], //sex [1,2]
+            "income": ["$0 - $20k", "$20k - $40k", "$40k - $75k", "$75k - $150k"], //  inc [1+2, 3+4, 5+6, 7+8]
+            "political": ["conservative", "moderate", "liberal"], // ideo [1+2,3,+4+5]
+            "education":["Less than HS", "High School", "College", "Postgraduate"], // educ2 [1 + 2, 3, 5+6, 7+8]
+            "jobFunction": ["interpersonal", "technical", "creative", "repetitive"], // job5 [job5a(1), job5b(1), job5c(1), job5d(1)]
+            "ageGroup": ["18 - 29", "30 - 49", "50 - 64", "65+"] // age
+        };
+
+        // create data models
+        Object.keys(labelDict).forEach(function(d) {
+          switch(d) {
+            case("sex"):
+              sex = [
+                { //male
+                  label: labelDict["sex"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                { //female
+                  label: labelDict["sex"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                }
+              ];
+              break;
+            case("income"):
+              income = [
+                {
+                  label: labelDict["income"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["income"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["income"][2],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["income"][3],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+              ];
+              break;
+            case("political"):
+              political = [
+                {
+                  label: labelDict["political"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["political"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["political"][2],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                }
+              ];
+              break;
+            case("education"):
+              education = [
+                {
+                  label: labelDict["education"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["education"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["education"][2],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["education"][3],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                }
+              ];
+              break;
+            case("jobFunction"):
+              jobFunction = [
+                {
+                  label: labelDict["jobFunction"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["jobFunction"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["jobFunction"][2],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["jobFunction"][3],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                }
+              ];
+              break;
+            case("ageGroup"):
+              ageGroup = [
+                {
+                  label: labelDict["ageGroup"][0],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["ageGroup"][1],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["ageGroup"][2],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                },
+                {
+                  label: labelDict["ageGroup"][3],
+                  value: 0,
+                  percentage: 0,
+                  answerId: ansId,
+                }
+              ];
+              break;
+          };
+        });
+
+        dataBundle = [sex, income, political,
+            education, jobFunction, ageGroup];
+
+        if (ansId == -1) {
+          drawChildGraphs(dataBundle);
+          return;
+        }
+
+        var totalResponses = 0;
+
+        // load data into data models
+        d3.csv("data/test.csv", function(survey) {
+          survey.map(function(d) {
+            if((getQuestionColumn(d).trim()) == ansId) {
+                totalResponses++;
+                // sex object
+                var a = d["sex"];
+                if(a == "1") {  // male
+                    sex[0].value++;
+                } else if(a == "2") {  // female
+                    sex[1].value++;
+                }
+
+                // income object
+                a = d["inc"];
+                if(a == "1" || a == "2") {
+                  income[0].value++;
+                } else if(a == "3" || a == "4") {
+                  income[1].value++;
+                } else if(a == "5" || a == "6") {
+                  income[2].value++;
+                } else if(a == "7" || a == "8") {
+                  income[3].value++;
+                }
+
+                // political
+                a = d["ideo"];
+                if(a == "1" || a == "2") {  // conservative + very conservative
+                  political[0].value++;
+                } else if(a == "3") {  // moderate
+                  political[1].value++;
+                } else if(a == "4" || a == "5") { // liberal + very liberal
+                  political[2].value++;
+                }
+
+                // education
+                a = d["educ2"];
+                if(a == "1" || a == "2") {  // no HS + some HS
+                  education[0].value++;
+                } else if(a == "3" || a == "4") {  // HS + some college
+                  education[1].value++;
+                } else if(a == "5" || a == "6") {  // college (assoc., bach, etc.)
+                  education[2].value++;
+                } else if(a == "7" || a == "8") {  // postgrad (phd, md, jd, etc.)
+                  education[3].value++;
+                }
+
+                // job function
+                if(d["job5a"] == "1") { // interpersonal -- yes
+                  jobFunction[0].value++;
+                }
+                if(d["job5b"] == "1") { // technical -- yes
+                  jobFunction[1].value++;
+                }
+                if(d["job5c"] == "1") { // creative -- yes
+                  jobFunction[2].value++;
+                }
+                if(d["job5d"] == "1") { // repetitive -- yes
+                  jobFunction[3].value++;
+                }
+
+                // age group
+                a = d["age"];
+                if(a <= "29") { // 18-29
+                  ageGroup[0].value++;
+                } else if(a >= "30" && a <= "49") { // 30 - 49
+                  ageGroup[1].value++;
+                } else if(a >= "50" && a <= "64") { // 50 - 64
+                  ageGroup[2].value++;
+                } else if(a >= "65") {  // 65+
+                  ageGroup[3].value++;
+                }
+
+            } else if((getQuestionColumn(d).trim()) != "") {
+              // some other answer
+              totalResponses++;
+            }
+          });
+
+          // calculate percentages for each category
+          dataBundle.forEach(function(category) {
+            // category.forEach(function(d) {
+            //   totalResponses += d.value;
+            // });
+            category.forEach(function(d) {
+              d.percentage = (d.value / totalResponses) * 100;
+            });
+          });
+
+          drawChildGraphs(dataBundle);
+        });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div id="navbar">
+      <div class="nav-item arrow" id="left-arrow">
+        <img id=left-arrow-image src="img/left-arrow.png" alt="last question" />
+      </div>
+      <div class="nav-item">
+        <h2 id="question-text">This is a really really really really really really really really really really really really really reallyreallyreally long Question?</h2>
+      </div>
+      <div class="nav-item arrow" id="right-arrow">
+        <img src="img/right-arrow.png" alt="next question" />
+      </div>
+    </div>
+    <hr />
+  </header>
+  <div id="visual">
+    <div id="left-chart-container">
+      <svg class="parent-visual"></svg>
+    </div>
+    <div id="right-chart-container">
+      <div id="first-row" class="row-container">
+        <svg id="chart-1"></svg>
+        <svg id="chart-2"></svg>
+      </div>
+      <div id="second-row" class="row-container">
+        <svg id="chart-3"></svg>
+        <svg id="chart-4"></svg>
+      </div>
+      <div id="third-row" class="row-container">
+        <svg id="chart-5"></svg>
+        <svg id="chart-6"></svg>
+      </div>
+    </div>
+  </div>
+  <script>
+    var leftArrow = $("#left-arrow");
+    var rightArrow = $("#right-arrow");
+    var questionLabel = $("#question-text");
+
+    function updateQuestionElement() {
+      questionText = questionDict[questionIndex];
+      questionLabel.text(questionText);
+    }
+
+    function updateArrowVisibility() {
+      leftArrow.css('display', 'inline');
+      rightArrow.css('display', 'inline');
+      if(questionIndex == 0) {
+        leftArrow.css('display', 'none');
+      }
+      if(questionIndex == 4) {
+        rightArrow.css('display', 'none');
+      }
+    }
+
+    function updateParentGraph() {
+      // preparation work
+      var settings = setupParent();
+      createParent(settings);
+    }
+
+    function updateChildGraph() {
+      createChild(-1);
+    }
+
+    // display initial question
+    updateQuestionElement();
+    updateArrowVisibility();
+    updateParentGraph();
+    updateChildGraph();
+
+    // click handler for the next question
+    rightArrow.on('click', function(e) {
+      if(questionIndex <= 4) {
+        questionIndex++;
+      }
+      updateQuestionElement();
+      updateArrowVisibility();
+      updateParentGraph();
+      updateChildGraph();
+    })
+
+    leftArrow.on('click', function(e) {
+      if(questionIndex > 0) {
+        questionIndex--;
+      } else {
+        // fade the arrow
+        leftArrow.style.display = 'none';
+      }
+      updateQuestionElement();
+      updateArrowVisibility();
+      updateParentGraph();
+      updateChildGraph();
+    })
+
+  </script>
+</body>
+</html>
