@@ -5,12 +5,18 @@ This interactive visualization is for my final project in Udacity's "Make Effect
 
 ## Design
   **Bar graph**: I use bar graphs as a way to compare categorical data
+
   **Size**: I use size to make relative comparison amongst cohorts (conservative vs. moderate, etc.)
+
   **Percentages**: Percentages are used(y-axis) to make comparisons between cohorts ("definitely will" vs. "definitely won't")
+
   **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
+
   **Pre-attentive Processing**: Red highlighting is used to both beckon the user to click and also
   to remind them what category they're exploring.
+
   **Tooltip**: Gives more details about a certain bar
+  
   **Animated Transitions**: Cool to look at
 
 ## Installation
