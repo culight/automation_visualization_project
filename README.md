@@ -14,6 +14,7 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   **Animated Transitions**: Cool to look at
 
 ## Installation
+  Click link below to view:
   http://bl.ocks.org/culight/raw/1cb11a7a7909aed28a84036533c61b91/
 
 ## Feedback
@@ -26,7 +27,7 @@ This interactive visualization is for my final project in Udacity's "Make Effect
 
 
 ## Resources
-  * d3Js: https://d3js.org/
+  * d3Js: https://d3js.org/ (version 4.0)
   * JQuery: https://jquery.com/
   * Data Source: http://www.pewinternet.org/2016/03/10/public-predictions-for-the-future-of-workforce-automation/
 
