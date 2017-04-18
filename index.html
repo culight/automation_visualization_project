@@ -485,100 +485,201 @@
 
             var totalResponses = 0;
 
+            function setValuesForChildGraphs(thisAnswer, validAnswer) {
+                // male
+                sex[0].value = thisAnswer.filter(function(d){ return d["sex"] == "1"; }).length;
+                var total = validAnswer.filter(function(d) { return d["sex"] == "1"; }).length;
+                sex[0].percentage = (sex[0].value / total) * 100;
+                // female
+                sex[1].value = thisAnswer.filter(function(d){ return d["sex"] == "2"; }).length;
+                total = validAnswer.filter(function(d) { return d["sex"] == "2"; }).length;
+                sex[1].percentage = (sex[1].value / total) * 100;
+
+                // 0 - 20k income
+                income[0].value = thisAnswer.filter(function(d) {
+                  return (d["inc"] == "1") || (d["inc"] == "2");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["inc"] == "1") || (d["inc"] == "2");
+                }).length;
+                income[0].percentage = (income[0].value / total) * 100;
+
+                // 20 - 40k
+                income[1].value = thisAnswer.filter(function(d) {
+                  return (d["inc"] == "3") || (d["inc"] == "4");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["inc"] == "3") || (d["inc"] == "4");
+                }).length;
+                income[1].percentage = (income[1].value / total) * 100;
+
+                // 40 - 75k
+                income[2].value = thisAnswer.filter(function(d) {
+                  return (d["inc"] == "5") || (d["inc"] == "6");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["inc"] == "5") || (d["inc"] == "6");
+                }).length;
+                income[2].percentage = (income[2].value / total) * 100;
+
+                // 75 - 150k
+                income[3].value = thisAnswer.filter(function(d) {
+                  return (d["inc"] == "7") || (d["inc"] == "8");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["inc"] == "7") || (d["inc"] == "8");
+                }).length;
+                income[3].percentage = (income[3].value / total) * 100;
+
+                // conservative + very conservative
+                political[0].value = thisAnswer.filter(function(d) {
+                  return (d["ideo"] == "1") || (d["ideo"] == "2");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["ideo"] == "1") || (d["ideo"] == "2");
+                }).length;
+                political[0].percentage = (political[0].value / total) * 100;
+
+                // moderate
+                political[1].value = thisAnswer.filter(function(d) {
+                  return d["ideo"] == "3";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["ideo"] == "3";
+                }).length;
+                political[1].percentage = (political[1].value / total) * 100;
+
+                // liberal + very liberal
+                political[2].value = thisAnswer.filter(function(d) {
+                  return (d["ideo"] == "4") || (d["ideo"] == "5");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["ideo"] == "4") || (d["ideo"] == "5");
+                }).length;
+                political[2].percentage = (political[2].value / total) * 100;
+
+                // less than high school
+                education[0].value = thisAnswer.filter(function(d) {
+                  return (d["educ2"] == "1") || (d["educ2"] == "2");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["educ2"] == "1") || (d["educ2"] == "2");
+                }).length;
+                education[0].percentage = (education[0].value / total) * 100;
+
+                // at least high school
+                education[1].value = thisAnswer.filter(function(d) {
+                  return (d["educ2"] == "3") || (d["educ2"] == "4");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["educ2"] == "3") || (d["educ2"] == "4");
+                }).length;
+                education[1].percentage = (education[1].value / total) * 100;
+
+                // college (assoc., bach, etc.)
+                education[2].value = thisAnswer.filter(function(d) {
+                  return (d["educ2"] == "5") || (d["educ2"] == "6");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["educ2"] == "5") || (d["educ2"] == "6");
+                }).length;
+                education[2].percentage = (education[2].value / total) * 100;
+
+                // postgrad (phd, md, jd, etc.)
+                education[3].value = thisAnswer.filter(function(d) {
+                  return (d["educ2"] == "7") || (d["educ2"] == "8");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["educ2"] == "7") || (d["educ2"] == "8");
+                }).length;
+                education[3].percentage = (education[3].value / total) * 100;
+
+                // interpersonal
+                jobFunction[0].value = thisAnswer.filter(function(d) {
+                  return d["job5a"] == "1";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["job5a"] == "1";
+                }).length;
+                jobFunction[0].percentage = (jobFunction[0].value / total) * 100;
+
+                // technical
+                jobFunction[1].value = thisAnswer.filter(function(d) {
+                  return d["job5b"] == "1";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["job5b"] == "1";
+                }).length;
+                jobFunction[1].percentage = (jobFunction[1].value / total) * 100;
+
+                // creative
+                jobFunction[2].value = thisAnswer.filter(function(d) {
+                  return d["job5c"] == "1";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["job5c"] == "1";
+                }).length;
+                jobFunction[2].percentage = (jobFunction[2].value / total) * 100;
+
+                // repetitive
+                jobFunction[3].value = thisAnswer.filter(function(d) {
+                  return d["job5d"] == "1";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["job5d"] == "1";
+                }).length;
+                jobFunction[3].percentage = (jobFunction[3].value / total) * 100;
+
+                // 18 - 29
+                ageGroup[0].value = thisAnswer.filter(function(d) {
+                  return d["age"] <= "29";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["age"] <= "29";
+                }).length;
+                ageGroup[0].percentage = (ageGroup[0].value / total) * 100;
+
+                // 30 - 49
+                ageGroup[1].value = thisAnswer.filter(function(d) {
+                  return (d["age"] >= "30") && (d["age"] <= "49");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["age"] >= "30") && (d["age"] <= "49");
+                }).length;
+                ageGroup[1].percentage = (ageGroup[1].value / total) * 100;
+
+                // 50 - 64
+                ageGroup[2].value = thisAnswer.filter(function(d) {
+                  return (d["age"] >= "50") && (d["age"] <= "64");
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return (d["age"] >= "50") && (d["age"] <= "64");
+                }).length;
+                ageGroup[2].percentage = (ageGroup[2].value / total) * 100;
+
+                // 65+
+                ageGroup[3].value = thisAnswer.filter(function(d) {
+                  return d["age"] >= "65";
+                }).length;
+                total = validAnswer.filter(function(d) {
+                  return d["age"] >= "65";
+                }).length;
+                ageGroup[3].percentage = (ageGroup[3].value / total) * 100;
+            }
+
             // load data into data models
             d3.csv(inputData, function(survey) {
-                survey.map(function(d) {
-                    if ((getQuestionColumn(d).trim()) == ansId) {
-                        totalResponses++;
-                        // sex object
-                        var a = d["sex"];
-                        if (a == "1") { // male
-                            sex[0].value++;
-                        } else if (a == "2") { // female
-                            sex[1].value++;
-                        }
 
-                        // income object
-                        a = d["inc"];
-                        if (a == "1" || a == "2") {
-                            income[0].value++;
-                        } else if (a == "3" || a == "4") {
-                            income[1].value++;
-                        } else if (a == "5" || a == "6") {
-                            income[2].value++;
-                        } else if (a == "7" || a == "8") {
-                            income[3].value++;
-                        }
-
-                        // political
-                        a = d["ideo"];
-                        if (a == "1" || a == "2") { // conservative + very conservative
-                            political[0].value++;
-                        } else if (a == "3") { // moderate
-                            political[1].value++;
-                        } else if (a == "4" || a == "5") { // liberal + very liberal
-                            political[2].value++;
-                        }
-
-                        // education
-                        a = d["educ2"];
-                        if (a == "1" || a == "2") { // no HS + some HS
-                            education[0].value++;
-                        } else if (a == "3" || a == "4") { // HS + some college
-                            education[1].value++;
-                        } else if (a == "5" || a == "6") { // college (assoc., bach, etc.)
-                            education[2].value++;
-                        } else if (a == "7" || a == "8") { // postgrad (phd, md, jd, etc.)
-                            education[3].value++;
-                        }
-
-                        // job function
-                        if (d["job5a"] == "1") { // interpersonal -- yes
-                            jobFunction[0].value++;
-                        }
-                        if (d["job5b"] == "1") { // technical -- yes
-                            jobFunction[1].value++;
-                        }
-                        if (d["job5c"] == "1") { // creative -- yes
-                            jobFunction[2].value++;
-                        }
-                        if (d["job5d"] == "1") { // repetitive -- yes
-                            jobFunction[3].value++;
-                        }
-
-                        // age group
-                        a = d["age"];
-                        if (a <= "29") { // 18-29
-                            ageGroup[0].value++;
-                        } else if (a >= "30" && a <= "49") { // 30 - 49
-                            ageGroup[1].value++;
-                        } else if (a >= "50" && a <= "64") { // 50 - 64
-                            ageGroup[2].value++;
-                        } else if (a >= "65") { // 65+
-                            ageGroup[3].value++;
-                        }
-
-                    } else if ((getQuestionColumn(d).trim()) != "") {
-                        // some other answer
-                        totalResponses++;
-                    }
+                var dataForSelectedAnswer = survey.filter(function(d) {
+                    return getQuestionColumn(d).trim() == ansId;
                 });
 
-                var lessHs = survey.filter(function(d) {
-                    if(d["educ2"] == "1") {
-                        debugger;
-                    }
-                });
-                // calculate percentages for each category
-                dataBundle.forEach(function(category) {
-                    // category.forEach(function(d) {
-                    //   totalResponses += d.value;
-                    // });
-                    category.forEach(function(d) {
-                        d.percentage = (d.value / totalResponses) * 100;
-                    });
+                var dataForAllAnswers = survey.filter(function(d) {
+                    return getQuestionColumn(d).trim() != "";
                 });
 
+                setValuesForChildGraphs(dataForSelectedAnswer, dataForAllAnswers);
+                
                 drawChildGraphs(dataBundle);
             });
         }
