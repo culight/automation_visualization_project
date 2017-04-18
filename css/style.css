@@ -1,79 +1,57 @@
-
 /* todo: reponsive header */
+
 #navbar {
-  list-style-type: none;
-  margin: 0;
-  display: flex;
-
-  justify-content: space-around;
-  flex-wrap: wrap;
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
-
-.nav-item #question-text{
-  margin:auto;
-  text-align: center;
-  max-width: 80%;
+.nav-item #question-text {
+    margin: auto;
+    text-align: center;
+    max-width: 80%;
 }
-
 .arrow {
-  min-width: 8%;
+    min-width: 8%;
 }
-
 h2 {
-  vertical-align: middle;
+    vertical-align: middle;
 }
-
 #visual {
-  display: inline-flex;
-  width: 100%;
+    display: inline-flex;
+    width: 100%;
 }
-
 #left-chart-container {
-  width: 50%;
+    width: 50%;
 }
-
-#right-chart-container{
-  width: 50%;
-  /*display:inline-flex;
-  justify-content:space-between;*/
+#right-chart-container {
+    width: 50%;
 }
-
 .row-container {
-  height: 220px;
+    height: 220px;
 }
-
 #chart-1 {
-  width: 50%;
+    width: 50%;
 }
-
 #chart-2 {
-  float:inherit;
+    float: inherit;
 }
-
 #chart-3 {
-  width: 50%;
+    width: 50%;
 }
-
 #chart-4 {
-  float:inherit;
+    float: inherit;
 }
-
 #chart-5 {
-  width: 50%;
+    width: 50%;
 }
-
 #chart-6 {
-  float:inherit;
+    float: inherit;
 }
-
-.bar {
-  fill: blue;
-}
-
-.bar:hover {
+rect.bar:hover {
   fill: red;
 }
-
 .axis--x path {
-  display: none;
+    display: none;
 }

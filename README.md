@@ -1,10 +1,10 @@
 # American's Automation Predictions
 
 ## Summary
-Project for Georgia Tech's LMC 3412 (Communicating Science and Technology to the Public). Includes a data visualization that shows how different people in society perceive the influence of automation. I use the Future of Work dataset from Pew Research (http://www.pewinternet.org/2016/03/10/public-predictions-for-the-future-of-workforce-automation/)
+This interactive visualization is for my final project in Udacity's "Make Effective Data Visualization" (project 6) course. In the visulization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. The input data comes from a pew research questionnaire. (http://www.pewinternet.org/2016/03/10/public-predictions-for-the-future-of-workforce-automation/)
 
 ## Design
-Content
+
 
 ## Feedback
 Content
