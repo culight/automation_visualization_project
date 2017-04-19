@@ -19,7 +19,6 @@
         // raw input data from csv file
         var inputData = "data/survey.csv";
 
-        // question dictionaries
         var questionIndex = 0;
         var questionDict = {
             0: "How concerned are you that your employer will find someone who is willing to do your job for less money?",
@@ -30,7 +29,6 @@
         };
         var questionText = "";
 
-        // get correct answers from dictionaries
         const numOfQuestions = 6;
 
         var answerConcern = ["Very Concerned",
@@ -88,6 +86,7 @@
             }
         }
 
+        // setup dimensions and properties for main graph on the left
         var setupParent = function() {
             d3.select("#left-chart-container").select(".parent-visual").remove();
             var svg = d3.select("#left-chart-container").append("svg")
@@ -214,7 +213,7 @@
             lastBar = bar;
         }
 
-        // draw the children graphs on the right
+        // draw the child graphs on the right using dimple.js
         var drawChildGraphs = function(dataBundle) {
             var chartIndex = 1;
             dataBundle.forEach(function(data) {
@@ -305,6 +304,8 @@
         }
 
         // load filtered data from csv into multiples graphs
+        // ansId is the id associated with the answer category
+        // ("defintely will", "probably will", etc.)
         var createChild = function(ansId) {
             var sex = [],
                 income = [],
@@ -324,7 +325,7 @@
                 "ageGroup": ["18 - 29", "30 - 49", "50 - 64", "65+"] // age
             };
 
-            // create data models
+            // initialize data models
             Object.keys(labelDict).forEach(function(d) {
                 switch (d) {
                     case ("sex"):
@@ -478,6 +479,7 @@
                 education, jobFunction, ageGroup
             ];
 
+            // graph is being reset -- send empty data
             if (ansId == -1) {
                 drawChildGraphs(dataBundle);
                 return;
@@ -485,6 +487,7 @@
 
             var totalResponses = 0;
 
+            // set the proper values for the data models
             function setValuesForChildGraphs(thisAnswer, validAnswer) {
                 // male
                 sex[0].value = thisAnswer.filter(function(d){ return d["sex"] == "1"; }).length;
@@ -503,7 +506,6 @@
                   return (d["inc"] == "1") || (d["inc"] == "2");
                 }).length;
                 income[0].percentage = (income[0].value / total) * 100;
-
                 // 20 - 40k
                 income[1].value = thisAnswer.filter(function(d) {
                   return (d["inc"] == "3") || (d["inc"] == "4");
@@ -512,7 +514,6 @@
                   return (d["inc"] == "3") || (d["inc"] == "4");
                 }).length;
                 income[1].percentage = (income[1].value / total) * 100;
-
                 // 40 - 75k
                 income[2].value = thisAnswer.filter(function(d) {
                   return (d["inc"] == "5") || (d["inc"] == "6");
@@ -521,7 +522,6 @@
                   return (d["inc"] == "5") || (d["inc"] == "6");
                 }).length;
                 income[2].percentage = (income[2].value / total) * 100;
-
                 // 75 - 150k
                 income[3].value = thisAnswer.filter(function(d) {
                   return (d["inc"] == "7") || (d["inc"] == "8");
@@ -539,7 +539,6 @@
                   return (d["ideo"] == "1") || (d["ideo"] == "2");
                 }).length;
                 political[0].percentage = (political[0].value / total) * 100;
-
                 // moderate
                 political[1].value = thisAnswer.filter(function(d) {
                   return d["ideo"] == "3";
@@ -548,7 +547,6 @@
                   return d["ideo"] == "3";
                 }).length;
                 political[1].percentage = (political[1].value / total) * 100;
-
                 // liberal + very liberal
                 political[2].value = thisAnswer.filter(function(d) {
                   return (d["ideo"] == "4") || (d["ideo"] == "5");
@@ -566,7 +564,6 @@
                   return (d["educ2"] == "1") || (d["educ2"] == "2");
                 }).length;
                 education[0].percentage = (education[0].value / total) * 100;
-
                 // at least high school
                 education[1].value = thisAnswer.filter(function(d) {
                   return (d["educ2"] == "3") || (d["educ2"] == "4");
@@ -575,7 +572,6 @@
                   return (d["educ2"] == "3") || (d["educ2"] == "4");
                 }).length;
                 education[1].percentage = (education[1].value / total) * 100;
-
                 // college (assoc., bach, etc.)
                 education[2].value = thisAnswer.filter(function(d) {
                   return (d["educ2"] == "5") || (d["educ2"] == "6");
@@ -584,7 +580,6 @@
                   return (d["educ2"] == "5") || (d["educ2"] == "6");
                 }).length;
                 education[2].percentage = (education[2].value / total) * 100;
-
                 // postgrad (phd, md, jd, etc.)
                 education[3].value = thisAnswer.filter(function(d) {
                   return (d["educ2"] == "7") || (d["educ2"] == "8");
@@ -602,7 +597,6 @@
                   return d["job5a"] == "1";
                 }).length;
                 jobFunction[0].percentage = (jobFunction[0].value / total) * 100;
-
                 // technical
                 jobFunction[1].value = thisAnswer.filter(function(d) {
                   return d["job5b"] == "1";
@@ -611,7 +605,6 @@
                   return d["job5b"] == "1";
                 }).length;
                 jobFunction[1].percentage = (jobFunction[1].value / total) * 100;
-
                 // creative
                 jobFunction[2].value = thisAnswer.filter(function(d) {
                   return d["job5c"] == "1";
@@ -620,7 +613,6 @@
                   return d["job5c"] == "1";
                 }).length;
                 jobFunction[2].percentage = (jobFunction[2].value / total) * 100;
-
                 // repetitive
                 jobFunction[3].value = thisAnswer.filter(function(d) {
                   return d["job5d"] == "1";
@@ -638,7 +630,6 @@
                   return d["age"] <= "29";
                 }).length;
                 ageGroup[0].percentage = (ageGroup[0].value / total) * 100;
-
                 // 30 - 49
                 ageGroup[1].value = thisAnswer.filter(function(d) {
                   return (d["age"] >= "30") && (d["age"] <= "49");
@@ -647,7 +638,6 @@
                   return (d["age"] >= "30") && (d["age"] <= "49");
                 }).length;
                 ageGroup[1].percentage = (ageGroup[1].value / total) * 100;
-
                 // 50 - 64
                 ageGroup[2].value = thisAnswer.filter(function(d) {
                   return (d["age"] >= "50") && (d["age"] <= "64");
@@ -656,7 +646,6 @@
                   return (d["age"] >= "50") && (d["age"] <= "64");
                 }).length;
                 ageGroup[2].percentage = (ageGroup[2].value / total) * 100;
-
                 // 65+
                 ageGroup[3].value = thisAnswer.filter(function(d) {
                   return d["age"] >= "65";
@@ -670,16 +659,18 @@
             // load data into data models
             d3.csv(inputData, function(survey) {
 
+                // all data for this answer Id
                 var dataForSelectedAnswer = survey.filter(function(d) {
                     return getQuestionColumn(d).trim() == ansId;
                 });
 
+                // all data with a non-empty answer (people w/ jobs)
                 var dataForAllAnswers = survey.filter(function(d) {
                     return getQuestionColumn(d).trim() != "";
                 });
 
                 setValuesForChildGraphs(dataForSelectedAnswer, dataForAllAnswers);
-                
+
                 drawChildGraphs(dataBundle);
             });
         }
@@ -770,6 +761,7 @@
             updateChildGraph();
         })
 
+        // click handler for the previous question
         leftArrow.on('click', function(e) {
             if (questionIndex > 0) {
                 questionIndex--;
