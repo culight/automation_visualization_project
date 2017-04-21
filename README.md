@@ -13,6 +13,7 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   **Tooltip**: Gives more details about a certain bar
 
   -- Updated --
+
   **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
 
   **Pre-attentive Processing**: Red highlighting is used to both beckon the user to click and also
@@ -29,11 +30,20 @@ This interactive visualization is for my final project in Udacity's "Make Effect
 
 ## Feedback
   Here's some feedback that I've received:
-  * First thing I noticed were the graphs on the right
-  * I wonder how many people were surveyed and where the info came from
-  * Not as many people were concerned about job security as I expected
-  * Compartmentalization of information was useful
-  * I didn't know to click on the bar --> *added hovering*
+    - Two girls in coffee shop
+      >  - First thing I noticed were the graphs on the right
+      >  - I wonder how many people were surveyed and where the info came from
+      >  - Not as many people were concerned about job security as I expected
+      >  - Compartmentalization of information was useful
+      >  - I didn't know to click on the bar --> *added red hovering*
+
+  - My brother
+      >  - The first thing I noticed was the title and question above and then the bar graph
+      >  - Who conducted survey, sample size, margin of error, when it was conducted
+      >  - Opinions between different groups were more equal than I expected
+      >  - People do feel like robots will take over jobs… just not their jobs
+      >  - Clicking on the bar was not obvious. Side part should already be populated.
+
 
 ## Resources
   * d3js: https://d3js.org/ (version 4.0)
