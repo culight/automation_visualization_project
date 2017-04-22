@@ -36,7 +36,7 @@ This interactive visualization is for my final project in Udacity's "Make Effect
       >  - I wonder how many people were surveyed and where the info came from
       >  - Not as many people were concerned about job security as I expected
       >  - Compartmentalization of information was useful
-      >  - I didn't know to click on the bar --> *added red hovering*
+      >  - I didn't know to click on the bar
 
   - My brother
       >  - The first thing I noticed was the title and question above and then the bar graph
@@ -48,12 +48,12 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   - mmlak_0109
       >Good work so far. In general, the information is presented in a clear manner, and the animations are simple and aid in understanding. >Here the main things for me that come to mind in terms of problem areas:
       >
-      >2. It's a bit hard to determine the exact percentage of the responses in the main bar graph since there is no tool-tip or dash-line >pointing out exactly where the percentage falls. You have this function in the small multiple bar graphs, but not the main one. I would >add this function back into the main bar graph.
+      >1. It's a bit hard to determine the exact percentage of the responses in the main bar graph since there is no tool-tip or dash-line >pointing out exactly where the percentage falls. You have this function in the small multiple bar graphs, but not the main one. I would >add this function back into the main bar graph.
       >
-      >3. On some the small multiple graphs the variable names on the x-axis are completely vertical. This makes reading the variable names a >little hard. I would suggest setting them at at least 45 degrees to make them more easily readable. I've adapted this code to do it in >my own visualization:
+      >2. On some the small multiple graphs the variable names on the x-axis are completely vertical. This makes reading the variable names a >little hard. I would suggest setting them at at least 45 degrees to make them more easily readable. I've adapted this code to do it in >my own visualization:
       >http://stackoverflow.com/questions/17791926/how-to-rotate-x-axis-text-in-dimple-js
       >
-      >The percentages in the small multiples are a little confusing. For example, in the first graph for the question "How concerned are you >that your employer will find someone who is willing to do your job for less money?" If I click on the response category "Not At All >Concerned" and then look at the breakdown by sex in the small multiple graph, it gives 67% for females and 62% for males. Do these >percentages represent the percent of the total respondents, or just the percent of the specific response category? I'm assuming the >former, but it isn't completely clear.
+      >3.The percentages in the small multiples are a little confusing. For example, in the first graph for the question "How concerned are you >that your employer will find someone who is willing to do your job for less money?" If I click on the response category "Not At All >Concerned" and then look at the breakdown by sex in the small multiple graph, it gives 67% for females and 62% for males. Do these >percentages represent the percent of the total respondents, or just the percent of the specific response category? I'm assuming the >former, but it isn't completely clear.
 
 ## Resources
   * d3js: https://d3js.org/ (version 4.0)
