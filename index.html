@@ -180,10 +180,15 @@
                 createChild(labelId);
             }
 
+            var toolTip = d3.select("body")
+              	.append("div")
+              	.style("position", "absolute")
+              	.style("z-index", "10")
+              	.style("visibility", "hidden")
+
             // add new data
             bar.enter().append("rect")
                 .attr("class", "bar")
-
                 .attr("fill", "steelblue")
                 .on("click", function(d) {
                     lastBar.style("fill", "steelblue")
@@ -194,10 +199,18 @@
                     barClicked(d.labelId);
                 })
                 .on("mouseover", function (d) {
+                    var roundedPerc = parseFloat(Math.round(d.percentage * 100) / 100)
+                                          .toFixed(2);
+                    toolTip.text(roundedPerc);
+                    toolTip.style("visibility", "visible");
                     d3.select(this).style("fill", "red");
-                }).on("mouseout", function (d) {
-                    if (d3.select(this).attr("id") == "selected") { return; }
-                    d3.select(this).style("fill", "steelblue");
+                }).on("mousemove", function(){
+                      return toolTip.style("top", (event.pageY-10)+"px")
+                                    .style("left",(event.pageX+10)+"px");})
+                  .on("mouseout", function (d) {
+                      toolTip.style("visibility", "hidden");
+                      if (d3.select(this).attr("id") == "selected") { return; }
+                      d3.select(this).style("fill", "steelblue");
                 })
                 .attr("x", function(d) {
                     return x(d.label);
@@ -216,12 +229,34 @@
         // draw the child graphs on the right using dimple.js
         var drawChildGraphs = function(dataBundle) {
             var chartIndex = 1;
+            var answer;
             dataBundle.forEach(function(data) {
                 var chartWrapper = d3.select("#chart-" + chartIndex).attr("width", 200).attr("height", 220);
                 if (data[0].answerId == -1) {
                     $("#chart-" + chartIndex).empty();
-                }
+                } else {
+                    var answerSet = getAnswerSet();
+                    answer = answerSet[answerIndex.indexOf(data[0].answerId)];
+                    answer = answer.toLowerCase();
 
+                    // percent responded with this answer
+                    data.forEach(function(row) {
+                        row.response = answer;
+                    });
+
+                    // percent responded with other answers
+                    var opposite = data.map(function(row) {
+                        return  {
+                          "label": row.label,
+                          "value": row.value,
+                          "percentage": 100 - Number(row.percentage),
+                          "order": row.order,
+                          "answerId": row.answerId,
+                          "response": 'other responses'
+                        };
+                    });
+                    data = data.concat(opposite);
+                }
 
                 var chart = new dimple.chart(chartWrapper, data);
                 chart.setBounds(26, 20, 180, 130);
@@ -230,11 +265,10 @@
                 xAxis.title = "";
                 var yAxis = chart.addMeasureAxis("y", "percentage");
                 yAxis.title = "";
-                //yAxis.overrideMax = 100;
-                var series = chart.addSeries("% Responded", dimple.plot.bar);
-
+                yAxis.overrideMax = 100;
+                var series = chart.addSeries("response", dimple.plot.bar);
+                chart.assignColor(answer, "red", null, 0.5);
                 chart.draw(1000);
-
                 chartIndex++;
             })
         }
@@ -322,7 +356,7 @@
                 "political": ["conservative", "moderate", "liberal"], // ideo [1+2,3,+4+5]
                 "education": ["Less than HS", "High School", "College", "Postgraduate"], // educ2 [1 + 2, 3, 5+6, 7+8]
                 "jobFunction": ["interpersonal", "technical", "creative", "repetitive"], // job5 [job5a(1), job5b(1), job5c(1), job5d(1)]
-                "ageGroup": ["18 - 29", "30 - 49", "50 - 64", "65+"] // age
+                "ageGroup": ["\u00A0\u00A018 - 29", "\u00A0\u00A030 - 49", "\u00A0\u00A050 - 64", "\u00A0\u00A065+"] // age
             };
 
             // initialize data models

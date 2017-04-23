@@ -25,6 +25,18 @@ h2 {
 #left-chart-container {
     width: 50%;
 }
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: pink;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
 #right-chart-container {
     width: 50%;
 }

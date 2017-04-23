@@ -4,6 +4,8 @@
 This interactive visualization is for my final project in Udacity's "Make Effective Data Visualization" (project 6) course. In the visualization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. The input data comes from a pew research questionnaire.
 
 ## Design
+
+
   **Bar graph**: I use bar graphs as a way to compare categorical data
 
   **Size**: I use size to make relative comparison amongst cohorts (conservative vs. moderate, etc.)
@@ -12,7 +14,7 @@ This interactive visualization is for my final project in Udacity's "Make Effect
 
   **Tooltip**: Gives more details about a certain bar
 
-  -- Updated --
+  -- Updated (15 Apr 2017) --
 
   **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
 
