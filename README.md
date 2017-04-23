@@ -4,7 +4,9 @@
 This interactive visualization is for my final project in Udacity's "Make Effective Data Visualization" (project 6) course. In the visualization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. The input data comes from a pew research questionnaire.
 
 ## Design
+  ![alt tag](https://raw.githubusercontent.com/culight/dand-project6/tree/master/diagrams/original.jpeg)
 
+  ![alt tag](https://raw.githubusercontent.com/culight/dand-project6/tree/master/diagrams/updated.jpeg)
 
   **Bar graph**: I use bar graphs as a way to compare categorical data
 
@@ -15,7 +17,6 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   **Tooltip**: Gives more details about a certain bar
 
   -- Updated (15 Apr 2017) --
-
   **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
 
   **Pre-attentive Processing**: Red highlighting is used to both beckon the user to click and also
@@ -26,6 +27,12 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   **Relative Comparisons**: I changed the data wrangling so the bars on the right represent the percentage of that cohort
   that gave that particular answer (e.g. 18% of all males with a job were "not too concerned" about being replaced with someone cheaper).
 
+  ![alt tag](https://raw.githubusercontent.com/culight/projectname/branch/path/to/img.png)
+
+  -- Updated (23 Apr 2017) --
+  **Stacked Bar Graph**: Stacking the bar graph makes the differences between the responses more obvious
+
+  **Tooltip**: Added simple tool tip to the main bar graph
 
 ## Installation
   Click link to view:
