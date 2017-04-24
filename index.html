@@ -226,6 +226,9 @@
             lastBar = bar;
         }
 
+        var setupChild = function(dataBundle) {
+            // populate with empty data bundle
+        }
         // draw the child graphs on the right using dimple.js
         var drawChildGraphs = function(dataBundle) {
             var chartIndex = 1;
@@ -245,7 +248,7 @@
                     });
 
                     // percent responded with other answers
-                    var opposite = data.map(function(row) {
+                    var remainder = data.map(function(row) {
                         return  {
                           "label": row.label,
                           "value": row.value,
@@ -255,20 +258,28 @@
                           "response": 'other responses'
                         };
                     });
-                    data = data.concat(opposite);
+                    data = data.concat(remainder);
                 }
 
+                // setup chart
                 var chart = new dimple.chart(chartWrapper, data);
                 chart.setBounds(26, 20, 180, 130);
+
+                // setup x-axis
                 var xAxis = chart.addCategoryAxis("x", "label");
                 xAxis.addOrderRule("order", false);
                 xAxis.title = "";
+
+                // setup y-axis
                 var yAxis = chart.addMeasureAxis("y", "percentage");
                 yAxis.title = "";
                 yAxis.overrideMax = 100;
+
+                // plot relationship based on relevant response vs. other responses
                 var series = chart.addSeries("response", dimple.plot.bar);
                 chart.assignColor(answer, "red", null, 0.5);
                 chart.draw(1000);
+
                 chartIndex++;
             })
         }
