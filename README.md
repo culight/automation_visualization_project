@@ -10,31 +10,33 @@ This interactive visualization is for my final project in Udacity's "Make Effect
   Updated Design:
   ![Alt text](diagrams/updated.jpeg)
 
-  **Bar graph**: I use bar graphs as a way to compare categorical data
+  --Initial Design Decisions--
 
-  **Size**: I use size to make relative comparison amongst cohorts (conservative vs. moderate, etc.)
+    **Bar graph**: I use bar graphs as a way to compare categorical data
 
-  **Percentages**: Percentages are used(y-axis) to make comparisons between cohorts ("definitely will" vs. "definitely won't")
+    **Size**: I use size to make relative comparison amongst cohorts (conservative vs. moderate, etc.)
 
-  **Tooltip**: Gives more details about a certain bar in the small multiple graphs
+    **Percentages**: Percentages are used(y-axis) to make comparisons between cohorts ("definitely will" vs. "definitely won't")
+
+    **Tooltip**: Gives more details about a certain bar in the small multiple graphs
 
   -- Updated (15 Apr 2017) --
 
-  **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
+    **Color hue**: The main bars use a slightly darker color to attract your attention before the children graphs transform
 
-  **Pre-attentive Processing**: Red highlighting is used to both beckon the user to click and also
-  to remind them what category they're exploring.
+    **Pre-attentive Processing**: Red highlighting is used to both beckon the user to click and also
+    to remind them what category they're exploring.
 
-  **Animated Transitions**: Cool to look at
+    **Animated Transitions**: Cool to look at
 
-  **Relative Comparisons**: I changed the data wrangling so the bars on the right represent the percentage of that cohort
-  that gave that particular answer (e.g. 18% of all males with a job were "not too concerned" about being replaced with someone cheaper).
+    **Relative Comparisons**: I changed the data wrangling so the bars on the right represent the percentage of that cohort
+    that gave that particular answer (e.g. 18% of all males with a job were "not too concerned" about being replaced with someone cheaper).
 
   -- Updated (23 Apr 2017) --
 
-  **Stacked Bar Graph**: Stacking the bar graph makes the differences between the responses more obvious
+    **Stacked Bar Graph**: Stacking the bar graph makes the differences between the responses more obvious
 
-  **Tooltip**: Added simple tool tip to the main bar graph
+    **Tooltip**: Added simple tool tip to the main bar graph
 
   Initial Design Screenshot:
   ![Alt text](diagrams/before.png)
