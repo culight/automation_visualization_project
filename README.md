@@ -1,7 +1,7 @@
 # Americans' Automation Predictions
 
 ## Summary
-This interactive visualization is for my final project in Udacity's "Make Effective Data Visualization" (project 6) course. In the visualization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. There are several stories in this data; most noticeable is the fact that less-educated and less-affluent people were slightly more worried about automation than their better-educated counterparts. The input data comes from a pew research questionnaire.
+In this visualization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. There are several stories in this data; most noticeable is the fact that less-educated and less-affluent people were slightly more worried about automation than their better-educated counterparts. The input data comes from a pew research questionnaire.
 
 ## Design
   Original Design:
