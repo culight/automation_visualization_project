@@ -1,4 +1,4 @@
-# Americans' Automation Predictions
+# Perceptions of Workplace Automation
 
 ## Summary
 In this visualization, I tackle the topic of automation in the workplace. The objective of the visualization is to effectively explore how the average American perceives the threat of automation in their workplace and in general. There are several stories in this data; most noticeable is the fact that less-educated and less-affluent people were slightly more worried about automation than their better-educated counterparts. The input data comes from a pew research questionnaire.
@@ -86,6 +86,7 @@ In this visualization, I tackle the topic of automation in the workplace. The ob
   * Make the content more responsive
   * Optimize the data aggregation algorithm
   * Try to delve deeper into the data on the right side
+  * Develop a better story with the data
 
 ## Credits
 Demerrick Moton (dmoton3@gatech.edu)
